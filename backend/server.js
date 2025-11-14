@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // enable frontend access
-const frontendOrigin = process.env.FRONTEND_ORIGIN || 'http://localhost:8000';
+const frontendOrigin = process.env.FRONTEND_ORIGIN || 'http://localhost:9000';
 const corsOptions = {
   origin: frontendOrigin,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

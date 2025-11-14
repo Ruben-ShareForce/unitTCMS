@@ -33,7 +33,7 @@ cd unittcms
 docker-compose up --build
 ```
 
-You can access the app at `http://localhost:8000`
+You can access the app at `http://localhost:9000`
 
 [Looking for a non-Docker way?](https://kimatata.github.io/unittcms/docs/getstarted/from-source)
 

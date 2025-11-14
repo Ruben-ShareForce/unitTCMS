@@ -37,8 +37,8 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=8000
-ENV FRONTEND_ORIGIN=http://localhost:8000
+ENV PORT=9000
+ENV FRONTEND_ORIGIN=http://localhost:9000
 
 # Create a non-root user
 RUN addgroup --system --gid 1001 nodejs
@@ -65,7 +65,7 @@ WORKDIR /app
 COPY entrypoint.js ./
 
 # Expose the port
-EXPOSE 8000
+EXPOSE 9000
 
 # Run database migrations and start the combined server
 CMD ["node", "entrypoint.js"]

@@ -68,7 +68,7 @@ async function startServer() {
       });
     }
 
-    const PORT = process.env.PORT || 8000;
+    const PORT = process.env.PORT || 9000;
     httpServer.listen(PORT, (err) => {
       if (err) throw err;
       console.log(`> Ready on http://localhost:${PORT}`);

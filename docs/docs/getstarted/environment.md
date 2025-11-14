@@ -22,10 +22,10 @@ services:
     image: unittcms:latest
     build: .
     ports:
-      - '8000:8000'
+      - '9000:9000'
     // highlight-start
     environment:
-      - PORT=8000
+      - PORT=9000
       - SECRET_KEY=your_secret_key_here
       - IS_DEMO=false # set to true to seed the database
     // highlight-end
@@ -53,7 +53,7 @@ NEXT_PUBLIC_BACKEND_ORIGIN=http://localhost:8001
 Create a `.env` file in the `backend/` directory:
 
 ```.env title="backend/.env"
-FRONTEND_ORIGIN=http://localhost:8000
+FRONTEND_ORIGIN=http://localhost:9000
 PORT=8001
 SECRET_KEY=your-secret-key
 ```

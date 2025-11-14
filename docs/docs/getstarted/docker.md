@@ -17,4 +17,4 @@ cd unittcms
 docker-compose up --build
 ```
 
-then, you can access the app at `http://localhost:8000`
+then, you can access the app at `http://localhost:9000`

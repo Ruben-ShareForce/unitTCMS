@@ -25,7 +25,7 @@ git clone https://github.com/kimatata/unittcms.git
 Place the .env file at `backend/.env`.
 
 ```.env title="backend/.env"
-FRONTEND_ORIGIN=http://localhost:8000
+FRONTEND_ORIGIN=http://localhost:9000
 ```
 
 Move to backend directory, then install dependencies.
