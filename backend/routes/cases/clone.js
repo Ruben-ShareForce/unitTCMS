@@ -13,8 +13,8 @@ export default function (sequelize) {
   const Case = defineCase(sequelize, DataTypes);
   const Step = defineStep(sequelize, DataTypes);
   const CaseStep = defineCaseStep(sequelize, DataTypes);
-  Case.belongsToMany(Step, { through: CaseStep });
-  Step.belongsToMany(Case, { through: CaseStep });
+  Case.belongsToMany(Step, { through: 'caseSteps' });
+  Step.belongsToMany(Case, { through: 'caseSteps' });
 
   // TODO:  Implement a safer middleware to check permissions based on the actual caseId (in this case, multiples case ids)
   router.post('/clone', verifySignedIn, verifyProjectDeveloperFromProjectId, async (req, res) => {

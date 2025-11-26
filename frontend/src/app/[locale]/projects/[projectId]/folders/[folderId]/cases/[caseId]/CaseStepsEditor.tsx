@@ -14,17 +14,26 @@ type Props = {
 export default function StepsEditor({ isDisabled, steps, onStepUpdate, onStepPlus, onStepDelete, messages }: Props) {
   // sort steps by junction table's column
   const sortedSteps = steps.slice().sort((a, b) => {
-    const stepNoA = a.caseSteps.stepNo;
-    const stepNoB = b.caseSteps.stepNo;
+    const stepNoA = a.caseSteps.stepNo ?? 0;
+    const stepNoB = b.caseSteps.stepNo ?? 0;
     return stepNoA - stepNoB;
   });
 
   // filter steps
   const filteredSteps = sortedSteps.filter((entry) => entry.editState !== 'deleted');
 
+  // Ensure step numbers are correctly sequenced (1, 2, 3, etc.)
+  const stepsWithCorrectNumbers = filteredSteps.map((step, index) => ({
+    ...step,
+    caseSteps: {
+      ...step.caseSteps,
+      stepNo: index + 1, // Ensure correct numbering for display
+    },
+  }));
+
   return (
     <>
-      {filteredSteps.map((step, index) => (
+      {stepsWithCorrectNumbers.map((step, index) => (
         <div key={index} className="flex items-center my-1">
           <Avatar className="me-2" size="sm" name={step.caseSteps.stepNo.toString()} />
           <div key={step.id} className="grow flex gap-2">

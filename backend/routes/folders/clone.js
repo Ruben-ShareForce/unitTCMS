@@ -17,8 +17,8 @@ export default function (sequelize) {
   const Step = defineStep(sequelize, DataTypes);
   const CaseStep = defineCaseStep(sequelize, DataTypes);
   Case.belongsTo(Folder);
-  Case.belongsToMany(Step, { through: CaseStep });
-  Step.belongsToMany(Case, { through: CaseStep });
+  Case.belongsToMany(Step, { through: 'caseSteps' });
+  Step.belongsToMany(Case, { through: 'caseSteps' });
 
   async function _cloneFolderRecursive(sourceFolder, targetParent, transaction) {
     const folderToCreate = {
