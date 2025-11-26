@@ -53,7 +53,7 @@ function defineCase(sequelize, DataTypes) {
       onDelete: 'CASCADE',
     });
     Case.belongsToMany(models.Step, {
-      through: 'caseSteps',
+      through: models.CaseStep,
     });
     Case.belongsToMany(models.Tags, {
       through: 'caseTags',

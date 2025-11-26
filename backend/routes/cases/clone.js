@@ -13,8 +13,8 @@ export default function (sequelize) {
   const Case = defineCase(sequelize, DataTypes);
   const Step = defineStep(sequelize, DataTypes);
   const CaseStep = defineCaseStep(sequelize, DataTypes);
-  Case.belongsToMany(Step, { through: 'caseSteps' });
-  Step.belongsToMany(Case, { through: 'caseSteps' });
+  Case.belongsToMany(Step, { through: CaseStep });
+  Step.belongsToMany(Case, { through: CaseStep });
 
   // TODO:  Implement a safer middleware to check permissions based on the actual caseId (in this case, multiples case ids)
   router.post('/clone', verifySignedIn, verifyProjectDeveloperFromProjectId, async (req, res) => {
@@ -53,14 +53,32 @@ export default function (sequelize) {
               return clonedStep;
             });
 
-            const newStep = await Step.bulkCreate(clonedSteps, { transaction: t });
-            const newCaseSteps = newStep.map((step, index) => ({
-              caseId: newCase.id,
-              stepId: step.id,
-              stepNo: clonedSteps[index].caseSteps.stepNo,
-            }));
+            const newSteps = await Step.bulkCreate(clonedSteps, { transaction: t });
+            const newCaseSteps = [];
 
-            await CaseStep.bulkCreate(newCaseSteps, { transaction: t });
+            // Check for existing associations to prevent duplicates
+            for (let i = 0; i < newSteps.length; i++) {
+              const step = newSteps[i];
+              const existingAssociation = await CaseStep.findOne(
+                {
+                  where: { caseId: newCase.id, stepId: step.id },
+                  transaction: t,
+                }
+              );
+
+              // Only add if the association doesn't already exist
+              if (!existingAssociation) {
+                newCaseSteps.push({
+                  caseId: newCase.id,
+                  stepId: step.id,
+                  stepNo: clonedSteps[i].caseSteps.stepNo,
+                });
+              }
+            }
+
+            if (newCaseSteps.length > 0) {
+              await CaseStep.bulkCreate(newCaseSteps, { transaction: t });
+            }
           }
         }
       });

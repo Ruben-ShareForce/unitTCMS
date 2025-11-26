@@ -25,14 +25,26 @@ export default function (sequelize) {
         },
         { transaction: t }
       );
-      await CaseStep.create(
+      
+      // Check if this step is already associated with this case to prevent duplicates
+      const existingAssociation = await CaseStep.findOne(
         {
-          caseId: caseId,
-          stepId: newStep.id,
-          stepNo: step.caseSteps.stepNo,
-        },
-        { transaction: t }
+          where: { caseId: caseId, stepId: newStep.id },
+          transaction: t,
+        }
       );
+      
+      // Only create the association if it doesn't already exist
+      if (!existingAssociation) {
+        await CaseStep.create(
+          {
+            caseId: caseId,
+            stepId: newStep.id,
+            stepNo: step.caseSteps.stepNo,
+          },
+          { transaction: t }
+        );
+      }
       return newStep;
     };
 
